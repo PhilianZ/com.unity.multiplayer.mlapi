@@ -32,7 +32,7 @@ namespace MLAPI
     /// </summary>
     public abstract partial class NetworkedBehaviour : MonoBehaviour
     {
-#if DEVELOPMENT_BUILD || UNITY_EDITOR                
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
         static ProfilerMarker s_MLAPIRPCSendQueued = new ProfilerMarker("MLAPIRPCSendQueued");
 #endif
         const String StandardRPC_Channel = "STDRPC";
@@ -58,10 +58,10 @@ namespace MLAPI
             {
                 var writer = rpcQueueMananger.BeginAddQueueItemToOutboundFrame(RPCQueueManager.QueueItemType.ServerRPC, Time.realtimeSinceStartup, StandardRPC_Channel,0, NetworkingManager.Singleton.ServerClientId,null);
 
-                writer.WriteBit(false); // Encrypted
-                writer.WriteBit(false); // Authenticated
-                writer.WriteBits(MLAPIConstants.MLAPI_STD_SERVER_RPC, 6); // MessageType
-                writer.WriteUInt64Packed(NetworkId); // NetworkObjectId                
+//                writer.WriteBit(false); // Encrypted
+//                writer.WriteBit(false); // Authenticated
+//                writer.WriteBits(MLAPIConstants.MLAPI_STD_SERVER_RPC, 6); // MessageType
+                writer.WriteUInt64Packed(NetworkId); // NetworkObjectId
                 writer.WriteUInt16Packed(GetBehaviourId()); // NetworkBehaviourId
 
                 return writer;
@@ -91,9 +91,9 @@ namespace MLAPI
             if(rpcQueueMananger != null)
             {
                 var writer = rpcQueueMananger.BeginAddQueueItemToOutboundFrame(RPCQueueManager.QueueItemType.ClientRPC, Time.realtimeSinceStartup, StandardRPC_Channel,0, NetworkId,targetClientIds == null ? InternalMessageSender.GetAllClientIds().ToArray() :  targetClientIds);
-                writer.WriteBit(false); // Encrypted
-                writer.WriteBit(false); // Authenticated
-                writer.WriteBits(MLAPIConstants.MLAPI_STD_CLIENT_RPC, 6); // MessageType
+//                writer.WriteBit(false); // Encrypted
+//                writer.WriteBit(false); // Authenticated
+//                writer.WriteBits(MLAPIConstants.MLAPI_STD_CLIENT_RPC, 6); // MessageType
                 writer.WriteUInt64Packed(NetworkId); // NetworkObjectId
                 writer.WriteUInt16Packed(GetBehaviourId()); // NetworkBehaviourId
 
